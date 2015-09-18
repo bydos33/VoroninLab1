@@ -28,7 +28,7 @@ public class DBworker {
 			System.out.println(t.getMessage());
 		}
 	}
-	public int SaveUser(User svUser){	//сохраняет или обновляет информацию о пользователе в файле username.json
+	public int SaveUpdateUser(User svUser,int OpType){	//сохраняет или обновляет информацию о пользователе в файле username.json
 		
 		try{
 		GsonBuilder builder = new GsonBuilder();
@@ -39,9 +39,11 @@ public class DBworker {
 		
 		File userFile = new File(filepath);
 		if(userFile.exists()){
-			FileWriter writer = new FileWriter(filepath, false);
-			writer.write(userData);
-			writer.close();
+			if(OpType == 1){
+				FileWriter writer = new FileWriter(filepath, false);
+				writer.write(userData);
+				writer.close();
+			}
 			return 0;
 		}
 		else{
