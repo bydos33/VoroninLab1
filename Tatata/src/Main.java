@@ -11,6 +11,7 @@ public class Main {
 		user1.minPassLength=2;
 		user1.USBauth= true;
 		DBworker myDB = new DBworker();
-		myDB.SaveUser(user1);
+		User user2 = myDB.GetUserData("Pestik");
+		System.out.println(user2.name + user2.passwd + user2.minPassLength + user2.USBauth);
 	}
 }

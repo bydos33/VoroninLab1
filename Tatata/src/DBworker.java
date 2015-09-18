@@ -1,9 +1,12 @@
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
+import java.io.FileReader;
 import java.io.IOException;
-
-import javax.naming.Context;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -25,7 +28,7 @@ public class DBworker {
 			System.out.println(t.getMessage());
 		}
 	}
-	public int SaveUser(User svUser){
+	public int SaveUser(User svUser){	//сохраняет или обновляет информацию о пользователе в файле username.json
 		
 		try{
 		GsonBuilder builder = new GsonBuilder();
@@ -55,6 +58,20 @@ public class DBworker {
 		}catch(IOException ex){
 			System.out.println(ex.getMessage());
 			return 2;
+		}
+	}
+	public User GetUserData(String username){
+		String filepath = "/DB/"+username+".json";
+		JsonObject obj = new JsonObject();
+		try{
+			JsonParser parser = new JsonParser();
+			JsonElement jsonUser = parser.parse(new FileReader(filepath));
+			obj = jsonUser.getAsJsonObject();
+			User retUser = new User(obj.get("name").getAsString(),obj.get("passwd").getAsString(),obj.get("minPassLength").getAsInt(),obj.get("USBauth").getAsBoolean());
+			return retUser;
+		}catch(FileNotFoundException e){
+			System.out.println(e.getMessage());
+			return null;
 		}
 	}
 }
