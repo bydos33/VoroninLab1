@@ -4,6 +4,10 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.List;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -28,12 +32,13 @@ public class DBworker {
 			System.out.println(t.getMessage());
 		}
 	}
-	public int SaveUpdateUser(User svUser,int OpType){	//сохраняет или обновляет информацию о пользователе в файле username.json
+	public int SaveUpdateUser(User svUser,int OpType){	//сохраняет или обновляет информацию о пользователе в файле username.json, за тип опреации отвечает поле OpType
 		
 		try{
 		GsonBuilder builder = new GsonBuilder();
 		Gson gson = builder.create();
 		System.out.println(gson.toJson(svUser));
+		svUser.passwd = this.getHash(svUser.passwd);
 		String userData = gson.toJson(svUser);
 		String filepath = "/DB/"+ svUser.name+".json";
 		
@@ -76,4 +81,34 @@ public class DBworker {
 			return null;
 		}
 	}
+	public List<User> GetUserList(){
+		
+		return null;
+	}
+public String getHash(String str) {
+        
+        MessageDigest md5 ;        
+        StringBuffer  hexString = new StringBuffer();
+        
+        try {
+                                    
+            md5 = MessageDigest.getInstance("md5");
+            
+            md5.reset();
+            md5.update(str.getBytes()); 
+                        
+                        
+            byte messageDigest[] = md5.digest();
+                        
+            for (int i = 0; i < messageDigest.length; i++) {
+                hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
+            }
+                                                                                        
+        } 
+        catch (NoSuchAlgorithmException e) {                        
+            return e.toString();
+        }
+        
+        return hexString.toString();
+    }
 }
