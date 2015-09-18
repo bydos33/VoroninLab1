@@ -4,4 +4,8 @@ public class User {
 	public String passwd;
 	public int minPassLength;
 	public boolean USBauth;
+	
+	public User(){
+		
+	}
 }
