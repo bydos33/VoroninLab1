@@ -4,6 +4,8 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -81,9 +83,15 @@ public class DBworker {
 			return null;
 		}
 	}
-	public List<User> GetUserList(){
-		
-		return null;
+	public ArrayList<User> GetUserList(){
+		ArrayList<User> userList = new ArrayList();
+		File DbFolder = new File("/DB");
+		File[] files = DbFolder.listFiles();
+		for(File file : files){
+			String[] extFile = file.getName().split("\\.");
+			userList.add(this.GetUserData(extFile[0]));
+		}
+		return userList;
 	}
 public String getHash(String str) {
         
