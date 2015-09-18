@@ -7,12 +7,10 @@ public class Main {
 		// TODO Auto-generated method stub
 		User user1 = new User();
 		user1.name="Pestik";
-		user1.passwd="12345";
-		user1.minPassLength=3;
+		user1.passwd="123456";
+		user1.minPassLength=2;
 		user1.USBauth= true;
-		
-		GsonBuilder builder = new GsonBuilder();
-		Gson gson = builder.create();
-		System.out.println(gson.toJson(user1));
+		DBworker myDB = new DBworker();
+		myDB.SaveUser(user1);
 	}
 }
